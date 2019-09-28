@@ -1,0 +1,10 @@
+# Dependencies
+node_modules
+
+# Compression files lambda
+*.zip
+
+# Lock
+package-lock.json
+yarn.lock
+

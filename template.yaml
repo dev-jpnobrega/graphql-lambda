@@ -1,0 +1,24 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: An AWS Serverless Specification template describing your function.
+Resources:
+  GraphQL:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: src/index.handler
+      Runtime: nodejs8.10
+      Events:
+        AnyRequest:
+          Type: Api
+          Properties:
+            Path: /graphql
+            Method: ANY
+      CodeUri: .
+      Description: ''
+      MemorySize: 256
+      Timeout: 300
+      Environment:
+        Variables: 
+            DEBUG: '*'
+            ENV: 'devlopment'
+            
