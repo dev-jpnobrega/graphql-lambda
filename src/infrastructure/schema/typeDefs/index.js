@@ -9,21 +9,21 @@ module.exports = /* GraphQL */ `
     name: String!
   }
 
-  type ChannelNew {
+  type Publication {
     id: ID!
     message: String!
     user: User!
     channel: Channel!
   }
 
-  input PublishInput {
+  input PublicationInput {
     message: String!
     userId: ID!
     channelId: ID!
   }
 
   type Mutation {
-    publish(publishInput: PublishInput): String!
+    publish(publicationInput: PublicationInput): String!
   }
 
   type Query {
@@ -31,6 +31,6 @@ module.exports = /* GraphQL */ `
   }
 
   type Subscription {
-    channelNews(channelId: ID!): ChannelNew
+    channelNews(channelId: ID!): Publication
   }
 `;
