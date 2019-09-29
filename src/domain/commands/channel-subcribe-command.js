@@ -1,7 +1,7 @@
 const BaseCommand = require('./base-command');
 const { CHANNEL_PUBLISH } = require('../../helpers/events');
 
-class PublishCommand extends BaseCommand {
+class ChannelSubcribeCommand extends BaseCommand {
   constructor(pubSubService, withFilter) {
     super();
 
@@ -25,5 +25,5 @@ class PublishCommand extends BaseCommand {
   }
 }
 
-module.exports = PublishCommand;
+module.exports = ChannelSubcribeCommand;
  
