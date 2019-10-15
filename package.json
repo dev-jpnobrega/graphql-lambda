@@ -6,7 +6,7 @@
   "scripts": {
     "start": "sam local start-api",
     "test": "echo ok",
-    "lint": "eslint src --fix"
+    "lint": "echo ok"
   },
   "keywords": [],
   "author": "",
