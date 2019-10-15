@@ -3,7 +3,16 @@ const awsServerlessExpress = require('aws-serverless-express');
 const ApolloExpress = require('apollo-server-express');
 const bodyParser = require('body-parser');
 
+const CommandFactory = require('./helpers/command-factory');
+
+const ConnectManagerFactory = require('./infrastructure/factories/connect-manager-factory');
 const schema = require('./infrastructure/schema');
+
+const TYPES = {
+  CONNECTION: '$connect',
+  DISCONNECT: '$disconnect',
+  DEFAULT: '$default',
+}
 
 const createServer = (schema) => (event, context) => {
   return new Promise(async (resolve) => {
@@ -24,16 +33,37 @@ const createServer = (schema) => (event, context) => {
   });
 }
 
-module.exports.handler = createServer(schema);
+const createHandler = (routers) => async (event, context) => {
+  const { requestContext: { routeKey } } = event;
 
-module.exports.subscribe = async (event, context) => {
-  console.warn('event', event);
-  console.warn('context', context);
+  try {
+    const handle = routers[routeKey];
+    console.warn('handle', handle);
+
+    if (handle) {
+      const result = await handle({ event, context });
+
+      console.warn('result', result);
+
+      return {
+        statusCode: 200,
+        body: result 
+      }
+    }
+  } catch (error) {
+    console.error('ERRROR-HANDLER', error);
+  }
   
-  createServer(schema)(event, context);
-
   return {
     statusCode: 200,
     body: ''
   }
 }
+
+module.exports.handler = createServer(schema);
+
+module.exports.subscribe = createHandler({
+  [TYPES.CONNECTION]: CommandFactory.createAndPromisify(ConnectManagerFactory),
+  [TYPES.DISCONNECT]: CommandFactory.createAndPromisify(ConnectManagerFactory),
+  [TYPES.DEFAULT]: CommandFactory.createAndPromisify(ConnectManagerFactory),
+})
