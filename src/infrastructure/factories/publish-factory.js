@@ -20,4 +20,5 @@ class PublishFactory {
   }
 }
 
+
 module.exports = PublishFactory;
