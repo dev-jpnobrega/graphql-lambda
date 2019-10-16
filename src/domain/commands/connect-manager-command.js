@@ -38,7 +38,7 @@ class ConnectManagerCommand extends BaseCommand {
 
       return this.emit('success', result);
     } catch (error) {
-      console.warn('error2121', error);
+      console.warn('error', error);
       return this.emit('success', {});
     }    
   }

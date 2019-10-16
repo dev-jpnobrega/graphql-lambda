@@ -4,8 +4,8 @@ const ChannelRepository = require('../repositories/channel-repository');
 const { pubSub } = require('../services/pubSub');
 
 AWS.config.update({
-  accessKeyId: 'AKIAQBNGEWC7C7PZKBEQ',
-  secretAccessKey: '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',
+  accessKeyId: '',
+  secretAccessKey: '',
 });
 
 class ConnectManagerFactory {
