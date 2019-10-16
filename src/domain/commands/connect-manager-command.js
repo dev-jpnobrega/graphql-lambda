@@ -33,7 +33,7 @@ class ConnectManagerCommand extends BaseCommand {
       } = event;
 
       const result = await this.subscribeChannel(channel.id, {
-        connectedAt, connectionId, callbackUrl: `${domainName}/${stage}`,
+        connectedAt, connectionId, callbackUrl: `https://${domainName}/${stage}`,
       })
 
       return this.emit('success', result);
