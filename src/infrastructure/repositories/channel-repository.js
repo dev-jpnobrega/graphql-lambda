@@ -55,7 +55,7 @@ class ChannelRepository {
       ExpressionAttributeValues: {
         ':r': [{ ...publication }],
       },
-      ReturnValues:"ALL_NEW"
+      ReturnValues: "ALL_NEW"
     }
 
     return this.document.update(params).promise();
