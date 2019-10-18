@@ -32,7 +32,7 @@ pipeline {
                         noUploadOnFailure: false, 
                         selectedRegion: env.AWS_REGION, 
                         showDirectlyInBrowser: false, 
-                        sourceFile: '/', 
+                        sourceFile: '*/**', 
                         storageClass: 'STANDARD', 
                         uploadFromSlave: false, 
                         useServerSideEncryption: false
