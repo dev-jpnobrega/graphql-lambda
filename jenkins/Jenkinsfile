@@ -18,11 +18,30 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                withAWS(region: env.AWS_REGION, credentials: '1') {
-                    s3Delete(bucket: env.BUCKET_NAME, path: '/')
-                    s3Upload(bucket: env.BUCKET_NAME, workingDir: '/', includePathPattern:'**/*');
-                }
-            }            
+                step([
+                    $class: 'S3BucketPublisher', 
+                    consoleLogLevel: 'INFO', 
+                    dontWaitForConcurrentBuildCompletion: false, 
+                    entries: [[
+                        bucket: 'graphql-subscribe-lambda', 
+                        excludedFile: '', 
+                        flatten: false, 
+                        gzipFiles: true, 
+                        keepForever: false, 
+                        managedArtifacts: false, 
+                        noUploadOnFailure: false, 
+                        selectedRegion: env.AWS_REGION, 
+                        showDirectlyInBrowser: false, 
+                        sourceFile: '/', 
+                        storageClass: 'STANDARD', 
+                        uploadFromSlave: false, 
+                        useServerSideEncryption: false
+                    ]], 
+                    pluginFailureResultConstraint: 'FAILURE',
+                    profileName: 'Jenkins', 
+                    userMetadata: []
+                ])
+            }
         }
     }
 }
