@@ -19,6 +19,7 @@ pipeline {
         }
         stage('ZIP') {
             steps {
+                sh 'rm graphql-lambda.zip'
                 zip zipFile: env.ZIP_NAME, archive: false, dir: '/'
             } 
         } 
