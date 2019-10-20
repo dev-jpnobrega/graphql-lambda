@@ -17,10 +17,9 @@ pipeline {
                 sh 'npm install --production'
             }
         }
-        stage('Deploy') {
+        stage('ZIP') {
             steps {
-                sh 'Creating ZIP'
-                zip zipFile: env.ZIP_NAME, archive: false, dir: '/'
+                sh 'zip -r graphql-lambda.zip /'
             } 
         } 
         stage('Deploy') {
