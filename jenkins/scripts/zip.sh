@@ -7,4 +7,4 @@ echo 'Inicialize ZIP files'
 
 ls
 
-zip -r graphql-lambda.zip /
+sudo zip -r graphql-lambda.zip /
