@@ -19,7 +19,8 @@ pipeline {
         }
         stage('ZIP') {
             steps {
-                sh 'zip -r graphql-lambda.zip /'
+                sh 'chmod +x ./jenkins/scripts/zip.sh'
+                sh './jenkins/scripts/zip.sh'
             } 
         } 
         stage('Deploy') {
