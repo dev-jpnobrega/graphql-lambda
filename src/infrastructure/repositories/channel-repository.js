@@ -74,6 +74,20 @@ class ChannelRepository {
 
     return this.document.update(params).promise();
   }
+
+  async unSubscribe(channelId, person) {
+    const params = {
+      TableName: 'Channel',
+      Key: { 'ID': channelId },
+      UpdateExpression: 'set subscribers = list_append(subscribers, :person)',  // "add #1 :r",      
+      ExpressionAttributeValues: {
+        ':person': [{ ...person }],
+      },
+      ReturnValues: 'ALL_NEW'
+    }
+
+    return this.document.update(params).promise();
+  }
 }
 
 module.exports = ChannelRepository;

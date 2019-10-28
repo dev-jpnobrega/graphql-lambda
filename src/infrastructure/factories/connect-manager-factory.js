@@ -3,11 +3,6 @@ const ConnectManagerCommand = require('../../domain/commands/connect-manager-com
 const ChannelRepository = require('../repositories/channel-repository');
 const { pubSub } = require('../services/pubSub');
 
-AWS.config.update({
-  accessKeyId: '',
-  secretAccessKey: '',
-});
-
 class ConnectManagerFactory {
   create() {
     return new ConnectManagerCommand(

@@ -3,11 +3,6 @@ const PublishCommand = require('../../domain/commands/publish-command');
 const ChannelRepository = require('../repositories/channel-repository');
 const { pubSub } = require('../services/pubSub');
 
-AWS.config.update({
-  accessKeyId: '',
-  secretAccessKey: '',
-});
-
 class PublishFactory {
   create() {
     return new PublishCommand(
