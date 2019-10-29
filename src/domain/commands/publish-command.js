@@ -1,6 +1,8 @@
 const BaseCommand = require('./base-command');
 const { CHANNEL_PUBLISH } = require('../../helpers/events');
 
+const uuid = require('uuid/v4');
+
 const channel = {
   id: '6d0aa898-6e79-4348-a4fc-24890c763d01',
   info: {
@@ -19,6 +21,26 @@ class PublishCommand extends BaseCommand {
     this.channelRespository = channelRespository;
   }
 
+  async subscribe() {
+    const rs = await this.channelRespository.subscribe(channel.id, {
+      connectionId: uuid(),
+      userId: 2,
+      name: 'JP'
+    });
+
+    console.warn('rs- subscribe', rs);
+  }
+
+  async unSubscribe() {
+    const rs = await this.channelRespository.unSubscribe(channel.id, {
+      connectionId: '6d0aa898-6e79-4348-a4fc-24890c763d19',
+      userId: 2,
+      name: 'JP'
+    });
+
+    console.warn('rs- unSubscribe', rs);
+  }
+
   async createChannel() {
     await this.channelRespository.create(channel);
   }
@@ -27,7 +49,8 @@ class PublishCommand extends BaseCommand {
     const { channelId, message, userId } = publicationInput;
  
     try {
-        await this.createChannel();
+        await this.subscribe();
+        await this.unSubscribe();
       /*
       const data = await this.channelRespository.publishMessage2(channelId, {
         message,

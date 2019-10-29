@@ -6,6 +6,9 @@ const bodyParser = require('body-parser');
 const CommandFactory = require('./helpers/command-factory');
 
 const ConnectManagerFactory = require('./infrastructure/factories/connect-manager-factory');
+const ChannelConnectFactory = require('./infrastructure/factories/channel-connect-factory');
+const ChannelDisconnectFactory = require('./infrastructure/factories/channel-disconnect-factory');
+
 const schema = require('./infrastructure/schema');
 
 const TYPES = {
@@ -63,7 +66,7 @@ const createHandler = (routers) => async (event, context) => {
 module.exports.handler = createServer(schema);
 
 module.exports.subscribe = createHandler({
-  [TYPES.CONNECTION]: CommandFactory.createAndPromisify(ConnectManagerFactory),
-  [TYPES.DISCONNECT]: CommandFactory.createAndPromisify(ConnectManagerFactory),
+  [TYPES.CONNECTION]: CommandFactory.createAndPromisify(ChannelConnectFactory),
+  [TYPES.DISCONNECT]: CommandFactory.createAndPromisify(ChannelDisconnectFactory),
   [TYPES.DEFAULT]: CommandFactory.createAndPromisify(ConnectManagerFactory),
 })

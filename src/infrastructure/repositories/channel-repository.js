@@ -36,7 +36,7 @@ class ChannelRepository {
           description: channel.info.description,
           urlImage: channel.info.urlImage || '',
         },
-        subscribers: [],
+        subscribers: {},
         messages: [{
           message: `Channel ${channel.info.name} live.`,
           date: new Date().toISOString(),
@@ -65,9 +65,13 @@ class ChannelRepository {
     const params = {
       TableName: 'Channel',
       Key: { 'ID': channelId },
-      UpdateExpression: 'set subscribers = list_append(subscribers, :person)',  // "add #1 :r",      
+      ConditionExpression: "attribute_not_exists(subscribers.#connectionId)",
+      UpdateExpression: 'set subscribers.#connectionId = :person',
+      ExpressionAttributeNames: {
+        '#connectionId': person.connectionId,
+      },
       ExpressionAttributeValues: {
-        ':person': [{ ...person }],
+        ':person': { ...person },
       },
       ReturnValues: 'ALL_NEW'
     }
@@ -79,9 +83,9 @@ class ChannelRepository {
     const params = {
       TableName: 'Channel',
       Key: { 'ID': channelId },
-      UpdateExpression: 'set subscribers = list_append(subscribers, :person)',  // "add #1 :r",      
-      ExpressionAttributeValues: {
-        ':person': [{ ...person }],
+      UpdateExpression: 'REMOVE subscribers.#connectionId',  // 'set subscribers = list_append(subscribers, :person)',  // "add #1 :r",      
+      ExpressionAttributeNames: {
+        '#connectionId': person.connectionId,
       },
       ReturnValues: 'ALL_NEW'
     }
